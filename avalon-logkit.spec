@@ -37,7 +37,7 @@
 
 Name:        %{?scl_prefix}%{pkg_name}
 Version:     2.1
-Release:     14.12%{?dist}
+Release:     14.13%{?dist}
 Epoch:       0
 Summary:     Java logging toolkit
 License:     ASL 2.0
@@ -55,13 +55,13 @@ BuildRequires:    %{?scl_prefix_java_common}javamail
 BuildRequires:    %{?scl_prefix_java_common}ant-junit
 BuildRequires:    %{?scl_prefix_java_common}log4j
 BuildRequires:    %{?scl_prefix_java_common}tomcat-servlet-3.0-api
-BuildRequires:    maven30-avalon-framework >= 0:4.1.4
+BuildRequires:    %{?scl_prefix}avalon-framework >= 0:4.1.4
 # Required for converting jars to OSGi bundles
-BuildRequires:    maven30-aqute-bnd
-BuildRequires:    maven30-geronimo-jms
+BuildRequires:    %{?scl_prefix}aqute-bnd
+BuildRequires:    %{?scl_prefix}geronimo-jms
 
-Requires:    maven30-avalon-framework >= 0:4.1.4
-Requires:    maven30-geronimo-jms
+Requires:    %{?scl_prefix}avalon-framework >= 0:4.1.4
+Requires:    %{?scl_prefix}geronimo-jms
 Requires:    %{?scl_prefix_java_common}tomcat-servlet-3.0-api
 Requires:    %{?scl_prefix_java_common}javamail
 
@@ -81,7 +81,7 @@ Javadoc for %{pkg_name}.
 
 %prep
 %setup -q -n %{pkg_name}-%{version}
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 %patch0
 
@@ -94,7 +94,7 @@ find . -name "*.jar" -exec rm -f {} \;
 %{?scl:EOF}
 
 %build
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 export CLASSPATH=$(build-classpath log4j javamail/mailapi jms tomcat-servlet-api jdbc-stdext avalon-framework junit):$PWD/build/classes
 ant -Dencoding=ISO-8859-1 -Dnoget=true clean jar javadoc
@@ -103,7 +103,7 @@ java -jar $(build-classpath aqute-bnd) wrap target/%{pkg_name}-%{version}.jar
 %{?scl:EOF}
 
 %install
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 # jars
 install -d -m 755 $RPM_BUILD_ROOT%{_javadir}
@@ -127,6 +127,9 @@ cp -pr dist/docs/api/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 %{_javadocdir}/%{name}
 
 %changelog
+* Mon Jan 11 2016 Michal Srb <msrb@redhat.com> - 0:2.1-14.13
+- maven33 rebuild #2
+
 * Sat Jan 09 2016 Michal Srb <msrb@redhat.com> - 0:2.1-14.12
 - maven33 rebuild
 
