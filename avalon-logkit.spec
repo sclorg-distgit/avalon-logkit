@@ -37,7 +37,7 @@
 
 Name:        %{?scl_prefix}%{pkg_name}
 Version:     2.1
-Release:     14.13%{?dist}
+Release:     14.14%{?dist}
 Epoch:       0
 Summary:     Java logging toolkit
 License:     ASL 2.0
@@ -127,6 +127,9 @@ cp -pr dist/docs/api/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 %{_javadocdir}/%{name}
 
 %changelog
+* Mon Feb 08 2016 Michal Srb <msrb@redhat.com> - 0:2.1-14.14
+- Fix BR on maven-local & co.
+
 * Mon Jan 11 2016 Michal Srb <msrb@redhat.com> - 0:2.1-14.13
 - maven33 rebuild #2
 
